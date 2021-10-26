@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class CameraMngr : MonoBehaviour
 {
@@ -43,8 +44,8 @@ public class CameraMngr : MonoBehaviour
     private float lerpToPosY;
 
     //переменные для хранения координат нажатой кнопки
-    float currentMousePosX;
-    float currentMousePosY;
+    private float currentMousePosX;
+    private float currentMousePosY;
 
     //данные UI
     [SerializeField]
@@ -62,6 +63,7 @@ public class CameraMngr : MonoBehaviour
     [SerializeField]
     private Text HTxt;
     private bool panelIsOpen;
+
 
     // Start is called before the first frame update
     void Start()
@@ -150,27 +152,12 @@ public class CameraMngr : MonoBehaviour
         }
     }
 
-    //метод для получения адреса файла
-    private string getFilePath(string fileName) {
-        return Application.persistentDataPath + "/" + fileName;
-    }
-
     //метод для чтения данных из файла
     private string ReadDataFromJsonFile(string fileName)
     {
-        string path = getFilePath(fileName);
-        if (File.Exists(path))
-        {
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string json = reader.ReadToEnd();
-                return json;
-            }
-        }
-        else {
-            Debug.LogWarning("Файл не найден");
-        }
-        return "";
+        TextAsset txtAsset = (TextAsset)Resources.Load("testing_views_settings", typeof(TextAsset));
+        string JsonFile = txtAsset.text;
+        return JsonFile;
     }
 
     //метод для вызова панели информации 
